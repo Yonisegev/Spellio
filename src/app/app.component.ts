@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { SpeechService } from './services/speech.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,21 +6,14 @@ import { SpeechService } from './services/speech.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  constructor(private speechService: SpeechService) { }
-  title = 'spellio';
-  audio: HTMLAudioElement | null = null
-
+  constructor() { }
+  levelSelected: string = ''
   ngOnInit() {
+
   }
 
-
-  onButtonClick() {
-    this.speechService.textToSpeech('testing')
-      .subscribe(res => {
-        
-        this.audio = new Audio(`//localhost:3030/audio/testing.mp3`)
-        this.audio.play()
-      })
+  onSetLevel(difficulty: string) {
+    this.levelSelected = difficulty
   }
 
 

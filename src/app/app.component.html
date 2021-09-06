@@ -1,2 +1,11 @@
-<button (click)="onButtonClick()">click</button>
-<audio src="//localhost:3030/api/tts?txt=hello" #elAudio></audio>
+
+<main class="app">
+    <ng-container *ngIf="!levelSelected" >
+        <settings-selection (onLevelSelected)="onSetLevel($event)"></settings-selection>
+    </ng-container>
+    
+    <ng-container *ngIf="levelSelected">
+        <game (onResetDifficulty)="levelSelected = ''" [level]="levelSelected"></game>
+    </ng-container>
+</main>
+
