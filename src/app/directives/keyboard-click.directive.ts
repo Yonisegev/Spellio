@@ -7,9 +7,9 @@ import { GameService } from '../services/game.service';
 export class KeyboardClickDirective {
   timeoutId: any
   constructor(el: ElementRef, private gameService: GameService) {
-    this.gameService.clickedLetter$.subscribe(letter => {
+    this.gameService.clickedLetter$.subscribe(letterData => {
       const classes = Array.from(el.nativeElement.classList)
-      if (classes[1] === letter) {
+      if (classes[1] === letterData.letter) {
         el.nativeElement.classList.add('active')
         this.timeoutId = setTimeout(() => {
           el.nativeElement.classList.remove('active')
