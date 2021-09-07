@@ -21,7 +21,7 @@ export class KeyboardClickDirective {
   @HostListener('click', ['$event.target'])
   onClick(elBtn: HTMLElement) {
     const letter: string = elBtn.classList[1]
-    this.gameService.setClickedLetter(letter)
+    this.gameService.setClickedLetter({letter, origin: 'v-keyboard'})
   }
 
 

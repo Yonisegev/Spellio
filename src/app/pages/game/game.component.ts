@@ -3,6 +3,8 @@ import { SpeechService } from 'src/app/services/speech.service';
 // @ts-ignore
 import randomWords from 'random-words'
 import { GameService } from 'src/app/services/game.service';
+import { Subscription } from 'rxjs';
+import { LetterData } from 'src/app/models/letter-data';
 @Component({
   selector: 'game',
   templateUrl: './game.component.html',
@@ -18,15 +20,22 @@ export class GameComponent implements OnInit {
   randomWord: string = ''
   audio: HTMLAudioElement | null = null
   userInput: string = ''
+  letterSub: Subscription | undefined
+
   ngOnInit(): void {
-    this.gameService.clickedLetter$.subscribe(letter => {
-      this.handleLetter(letter)
+    this.letterSub = this.gameService.clickedLetter$.subscribe(letterData => {
+      this.handleLetter(letterData)
     })
+  }
+
+  ngOnDestroy() {
+    this.letterSub?.unsubscribe()
   }
 
   initLevel() {
     this.wordsRemaining = this.speechService.getLevelWordsCount(this.level)
   }
+
   onStartGame() {
     this.isGameOn = true
     this.playRandomWordSound()
@@ -42,7 +51,7 @@ export class GameComponent implements OnInit {
   }
 
   onUserInput(ev: KeyboardEvent) {
-    this.gameService.setClickedLetter(ev.key.toLowerCase())
+    this.gameService.setClickedLetter({ letter: ev.key.toLowerCase(), origin: 'input' })
   }
 
   onWordSubmit(ev: Event) {
@@ -73,7 +82,9 @@ export class GameComponent implements OnInit {
     alert('wrong')
   }
 
-  handleLetter(letter: string) {
+  handleLetter(letterData: LetterData) {
+    const { letter, origin } = letterData
+    if (origin === 'input') return
     if (letter === 'backspace') this.userInput = this.userInput.slice(0, this.userInput.length - 1)
     if (letter.length > 1) return
     this.userInput += letter
