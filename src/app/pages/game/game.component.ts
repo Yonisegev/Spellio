@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { SpeechService } from 'src/app/services/speech.service';
+import { WordService as WordService } from 'src/app/services/word.service';
 // @ts-ignore
 import randomWords from 'random-words'
 import { GameService } from 'src/app/services/game.service';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { LetterData } from 'src/app/models/letter-data';
+import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'game',
   templateUrl: './game.component.html',
@@ -12,7 +13,7 @@ import { LetterData } from 'src/app/models/letter-data';
 })
 export class GameComponent implements OnInit {
 
-  constructor(private speechService: SpeechService, private gameService: GameService) { }
+  constructor(private wordService: WordService, private gameService: GameService) { }
   @Input() level?: string
   @Output() onResetDifficulty = new EventEmitter()
   wordsRemaining: number = 3
@@ -22,22 +23,27 @@ export class GameComponent implements OnInit {
   randomWord: string = ''
   audio: HTMLAudioElement | null = null
   userInput: string = ''
-  letterSub: Subscription | undefined
+  subs$: Subject<boolean> = new Subject<boolean>()
+  error: string = ''
+  hint: string = ''
 
   ngOnInit(): void {
-    this.letterSub = this.gameService.clickedLetter$.subscribe(letterData => {
-      this.handleLetter(letterData)
-    })
+    this.gameService.clickedLetter$
+      .pipe(takeUntil(this.subs$))
+      .subscribe(letterData => {
+        this.handleLetter(letterData)
+      })
   }
 
   ngOnDestroy() {
-    this.letterSub?.unsubscribe()
+    this.subs$.next(true)
+    this.subs$.unsubscribe()
   }
 
 
   onStartGame() {
     this.isGameOn = true
-    this.wordsRemaining = this.speechService.getLevelWordsCount(this.level)
+    this.wordsRemaining = this.wordService.getLevelWordsCount(this.level)
     this.totalWords = this.wordsRemaining
     this.generateAndPlayRandomWord()
   }
@@ -45,9 +51,11 @@ export class GameComponent implements OnInit {
   generateAndPlayRandomWord() {
     this.randomWord = randomWords()
     console.log(this.randomWord)
-    this.speechService.textToSpeech(this.randomWord).subscribe(() => {
-      this.playWordSound()
-    })
+    this.wordService.textToSpeech(this.randomWord)
+      .pipe(takeUntil(this.subs$))
+      .subscribe(() => {
+        this.playWordSound()
+      })
   }
 
   playWordSound() {
@@ -73,6 +81,8 @@ export class GameComponent implements OnInit {
     if (this.wordsRemaining > 0) {
       this.wordsRemaining--
       this.currWordNum++
+      this.hint = ''
+      this.error = ''
       if (this.wordsRemaining <= 0) {
         alert('game over')
         this.isGameOn = false
@@ -94,6 +104,18 @@ export class GameComponent implements OnInit {
     if (letter === 'backspace') this.userInput = this.userInput.slice(0, this.userInput.length - 1)
     if (letter.length > 1) return
     this.userInput += letter
+  }
+
+  onGetHint() {
+    this.wordService.getWordDefinition(this.randomWord)
+      .pipe(takeUntil(this.subs$))
+      .subscribe(
+        definition => {
+          this.hint = definition
+        },
+        err => {
+          this.error = err
+        })
   }
 
 

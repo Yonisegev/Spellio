@@ -6,6 +6,9 @@
     </section>
     <section *ngIf="isGameOn" class="game-container">
         <button (click)="playWordSound()">Play word again</button>
+        <button (click)="onGetHint()">Hint</button>
+        <span *ngIf="error">{{error}}</span>
+        <span *ngIf="hint">{{hint}}</span>
         <h4>{{wordsRemaining}}</h4>
         <ng-container class="word-count-container flex">
             <span 

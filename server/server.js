@@ -25,12 +25,12 @@ if (process.env.NODE_ENV === "production") {
 
 
 app.get('/api/tts', async (req, res) => {
-  const {text} = req.query
+  const { text } = req.query
   const client = new textToSpeech.TextToSpeechClient();
   const request = {
-    input: {text},
-    voice: {languageCode: 'en-US', ssmlGender: 'FEMALE'},
-    audioConfig: {audioEncoding: 'MP3'},
+    input: { text },
+    voice: { languageCode: 'en-US', ssmlGender: 'FEMALE' },
+    audioConfig: { audioEncoding: 'MP3' },
   };
   const [response] = await client.synthesizeSpeech(request);
   const writeFile = util.promisify(fs.writeFile);
