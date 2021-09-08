@@ -16,6 +16,8 @@ export class GameComponent implements OnInit {
   @Input() level?: string
   @Output() onResetDifficulty = new EventEmitter()
   wordsRemaining: number = 3
+  totalWords: number = this.wordsRemaining
+  currWordNum: number = 0
   isGameOn: boolean = false
   randomWord: string = ''
   audio: HTMLAudioElement | null = null
@@ -32,22 +34,25 @@ export class GameComponent implements OnInit {
     this.letterSub?.unsubscribe()
   }
 
-  initLevel() {
-    this.wordsRemaining = this.speechService.getLevelWordsCount(this.level)
-  }
 
   onStartGame() {
     this.isGameOn = true
-    this.playRandomWordSound()
+    this.wordsRemaining = this.speechService.getLevelWordsCount(this.level)
+    this.totalWords = this.wordsRemaining
+    this.generateAndPlayRandomWord()
   }
 
-  playRandomWordSound() {
+  generateAndPlayRandomWord() {
     this.randomWord = randomWords()
     console.log(this.randomWord)
     this.speechService.textToSpeech(this.randomWord).subscribe(() => {
-      this.audio = new Audio(`//localhost:3030/audio/${this.randomWord}.mp3`)
-      this.audio.play()
+      this.playWordSound()
     })
+  }
+
+  playWordSound() {
+    this.audio = new Audio(`//localhost:3030/audio/${this.randomWord}.mp3`)
+    this.audio.play()
   }
 
   onUserInput(ev: KeyboardEvent) {
@@ -67,11 +72,12 @@ export class GameComponent implements OnInit {
   onCorrectSpelling() {
     if (this.wordsRemaining > 0) {
       this.wordsRemaining--
+      this.currWordNum++
       if (this.wordsRemaining <= 0) {
         alert('game over')
         this.isGameOn = false
       } else {
-        this.playRandomWordSound()
+        this.generateAndPlayRandomWord()
       }
       this.userInput = ''
 
@@ -89,5 +95,6 @@ export class GameComponent implements OnInit {
     if (letter.length > 1) return
     this.userInput += letter
   }
+
 
 }

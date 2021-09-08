@@ -1,12 +1,23 @@
-<h2>Spell it!</h2>
-<section *ngIf="!isGameOn" class="start-game">
-    <button (click)="onStartGame()">I am ready</button>
-    <button (click)="onResetDifficulty.emit()">Change Difficulty</button>
-</section>
-<section *ngIf="isGameOn" class="game-container">
-    <h4>{{wordsRemaining}}</h4>
-    <form (ngSubmit)="onWordSubmit($event)">
-        <input type="text" name="user-input" [(ngModel)]="userInput" #keyboardInput (keydown)="onUserInput($event)">
-    </form>
-    <keyboard></keyboard>
-</section>
+<main class="game-app">
+    <h2>Spell it!</h2>
+    <section *ngIf="!isGameOn" class="start-game">
+        <button (click)="onStartGame()">I am ready</button>
+        <button (click)="onResetDifficulty.emit()">Change Difficulty</button>
+    </section>
+    <section *ngIf="isGameOn" class="game-container">
+        <button (click)="playWordSound()">Play word again</button>
+        <h4>{{wordsRemaining}}</h4>
+        <ng-container class="word-count-container flex">
+            <span 
+            class="word-remaining word-{{idx + 1}}" 
+            *ngFor="let _ of [].constructor(totalWords); let idx = index"
+            [ngClass]="{'filled': currWordNum >= idx + 1}"
+            ></span>
+        </ng-container>
+        <form (ngSubmit)="onWordSubmit($event)" class="flex">
+            <input type="text" name="user-input" [(ngModel)]="userInput" #keyboardInput (keydown)="onUserInput($event)">
+            <button>Guess</button>
+        </form>
+        <keyboard></keyboard>
+    </section>
+</main>
