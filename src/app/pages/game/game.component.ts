@@ -53,9 +53,11 @@ export class GameComponent implements OnInit {
     console.log(this.randomWord)
     this.wordService.textToSpeech(this.randomWord)
       .pipe(takeUntil(this.subs$))
-      .subscribe(() => {
-        this.playWordSound()
-      })
+      .subscribe(
+        () => {
+          this.playWordSound()
+        },
+        err => this.generateAndPlayRandomWord())
   }
 
   playWordSound() {

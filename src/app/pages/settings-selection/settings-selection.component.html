@@ -1,9 +1,19 @@
-<section class="settings">
-    <h2>Welcome!</h2>
+<section class="settings flex column align-center">
     <h4>Select Difficulty</h4>
     <div class="levels flex">
-        <button (click)="onLevelSelect('easy')">Easy</button>
-        <button (click)="onLevelSelect('medium')">Medium</button>
-        <button (click)="onLevelSelect('hard')">Hard</button>
+        <button (mouseenter)="setLevelDescription('easy')" (mouseleave)="setLevelDescription('')"
+            (click)="onLevelSelect('easy')">
+            Easy
+        </button>
+        <button (mouseenter)="setLevelDescription('medium')" (mouseleave)="setLevelDescription('')"
+            (click)="onLevelSelect('medium')">
+            Medium
+        </button>
+        <button (mouseenter)="setLevelDescription('hard')" (mouseleave)="setLevelDescription('')"
+            (click)="onLevelSelect('hard')">
+            Hard
+        </button>
+    </div>
+    <div *ngIf="levelDescription" [ngClass]="{'show': levelDescription}" class="level-description">{{levelDescription}}
     </div>
 </section>

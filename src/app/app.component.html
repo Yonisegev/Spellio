@@ -1,11 +1,13 @@
-
 <main class="app">
-    <ng-container *ngIf="!levelSelected" >
+    <div class="heading">
+        <h1>Spellio</h1>
+        <p>Test your English!</p>
+    </div>
+    <ng-container *ngIf="!levelSelected">
         <settings-selection (onLevelSelected)="onSetLevel($event)"></settings-selection>
     </ng-container>
-    
+
     <ng-container *ngIf="levelSelected">
         <game (onResetDifficulty)="levelSelected = ''" [level]="levelSelected"></game>
     </ng-container>
 </main>
-

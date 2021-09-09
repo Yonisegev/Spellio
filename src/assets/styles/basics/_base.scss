@@ -2,10 +2,10 @@
   box-sizing: border-box;
 }
 
-
-
 html {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Londrina', cursive;
+  letter-spacing: 0.8px;
+  color: #fff;
   line-height: normal;
   font-size: 16px;
   scroll-behavior: smooth;
@@ -18,9 +18,12 @@ html {
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
+  // background: #7289da;
+  background-color: #3c8bdf;
+  background-image: url("../../img/bg.svg");
+  background-size: 50%;
 }
 
 h1,
@@ -64,7 +67,7 @@ button:active {
 textarea {
   outline: none;
   resize: none;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size: 1.1rem;
 }
 

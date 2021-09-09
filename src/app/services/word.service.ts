@@ -13,6 +13,10 @@ export class WordService {
     let httpParams: HttpParams = new HttpParams()
       .set('text', txt)
     return this.http.get('//localhost:3030/api/tts', { params: httpParams, responseType: 'text' })
+      .pipe(
+        retry(3),
+        catchError((err) => throwError('Failed to fetch sound'))
+      )
   }
 
   public getWordDefinition(word: string): Observable<any> {

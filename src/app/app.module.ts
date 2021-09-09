@@ -15,7 +15,7 @@ import { KeyboardClickDirective } from './directives/keyboard-click.directive';
     GameComponent,
     SettingsSelectionComponent,
     KeyboardComponent,
-    KeyboardClickDirective
+    KeyboardClickDirective,
   ],
   imports: [
     BrowserModule,

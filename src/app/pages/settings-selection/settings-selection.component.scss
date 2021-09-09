@@ -1,0 +1,53 @@
+@import "../../../assets/styles/setup/functions";
+:host {
+    display: flex;
+    justify-content: center;
+}
+
+.settings {
+    h4 {
+        font-size: rem(36px);
+        font-family: Londrina-Light, cursive;
+        margin-bottom: 8px;
+    }
+    button {
+        font-size: rem(20px);
+        background-color: #f04882;
+        color: white;
+        padding: 8px 20px;
+        border-radius: 3px;
+        position: relative;
+
+        transition: 0.3s background-color;
+
+        &:not(:first-of-type) {
+            margin-left: 30px;
+        }
+        &:hover {
+            background-color: darken(#f04882, 5%);
+        }
+    }
+    .level-description {
+        position: absolute;
+        top: 45px;
+        left: 0;
+        visibility: hidden;
+        opacity: 0;
+        max-height: 0;
+        max-width: 0;
+        font-size: rem(18px);
+        border-radius: 3px;
+
+        transition: opacity 0.3s;
+
+        &.show {
+            visibility: visible;
+            opacity: 1;
+            background-color: red;
+            width: 100px;
+            padding: 20px;
+            max-height: initial;
+            max-width: initial;
+        }
+    }
+}

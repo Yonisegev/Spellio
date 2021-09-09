@@ -10,13 +10,13 @@
         <span *ngIf="error">{{error}}</span>
         <span *ngIf="hint">{{hint}}</span>
         <h4>{{wordsRemaining}}</h4>
-        <ng-container class="word-count-container flex">
+        <div class="progress-count-container flex">
             <span 
             class="word-remaining word-{{idx + 1}}" 
             *ngFor="let _ of [].constructor(totalWords); let idx = index"
             [ngClass]="{'filled': currWordNum >= idx + 1}"
             ></span>
-        </ng-container>
+        </div>
         <form (ngSubmit)="onWordSubmit($event)" class="flex">
             <input type="text" name="user-input" [(ngModel)]="userInput" #keyboardInput (keydown)="onUserInput($event)">
             <button>Guess</button>
