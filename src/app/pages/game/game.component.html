@@ -1,24 +1,24 @@
 <main class="game-app">
-    <h2>Spell it!</h2>
-    <section *ngIf="!isGameOn" class="start-game">
-        <button (click)="onStartGame()">I am ready</button>
-        <button (click)="onResetDifficulty.emit()">Change Difficulty</button>
+    <section *ngIf="!isGameOn" class="pre-game-screen flex justify-center">
+        <button (click)="onStartGame()" class="regular-btn">{{isFirstTime ? 'I am ready' : 'Play again' }}</button>
+        <button (click)="onResetDifficulty.emit()" class="regular-btn">Change Difficulty</button>
     </section>
-    <section *ngIf="isGameOn" class="game-container">
-        <button (click)="playWordSound()">Play word again</button>
-        <button (click)="onGetHint()">Hint</button>
-        <span *ngIf="error">{{error}}</span>
-        <span *ngIf="hint">{{hint}}</span>
-        <h4>{{wordsRemaining}}</h4>
-        <div class="progress-count-container flex">
-            <span 
-            class="word-remaining word-{{idx + 1}}" 
-            *ngFor="let _ of [].constructor(totalWords); let idx = index"
-            [ngClass]="{'filled': currWordNum >= idx + 1}"
-            ></span>
+    <section *ngIf="isGameOn" class="game-container flex column align-center">
+        <score #score></score>
+        <div class="actions flex justify-center">
+            <button (click)="playWordSound()" class="regular-btn">Play word again</button>
+            <button (click)="onGetHint()" class="regular-btn">Hint</button>
+            <button (click)="onResetDifficulty.emit()" class="regular-btn">Change Difficulty</button>
         </div>
+        <div class="progress-count-container flex">
+            <span class="word-remaining word-{{idx + 1}}" *ngFor="let _ of [].constructor(totalWords); let idx = index"
+                [ngClass]="{'filled': currWordNum >= idx + 1}"></span>
+        </div>
+        <span *ngIf="error" class="error">{{error}}</span>
+        <span *ngIf="hint" class="hint">{{hint}}</span>
         <form (ngSubmit)="onWordSubmit($event)" class="flex">
-            <input type="text" name="user-input" [(ngModel)]="userInput" #keyboardInput (keydown)="onUserInput($event)">
+            <input [ngClass]="{'wrong': isWrongGuess}" type="text" name="user-input" [(ngModel)]="userInput"
+                #keyboardInput (keydown)="onUserInput($event)" autocomplete="off" placeholder="Start typing...">
             <button>Guess</button>
         </form>
         <keyboard></keyboard>

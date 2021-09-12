@@ -2,18 +2,29 @@
     <h4>Select Difficulty</h4>
     <div class="levels flex">
         <button (mouseenter)="setLevelDescription('easy')" (mouseleave)="setLevelDescription('')"
-            (click)="onLevelSelect('easy')">
+            (click)="onLevelSelect('easy')" class="regular-btn">
             Easy
+            <div class="description level-description-easy" [ngClass]="{'show': currHoveredLevel === 'easy'}">
+                {{levelDescription}}
+            </div>
         </button>
         <button (mouseenter)="setLevelDescription('medium')" (mouseleave)="setLevelDescription('')"
-            (click)="onLevelSelect('medium')">
+            (click)="onLevelSelect('medium')" class="regular-btn">
             Medium
+            <div class="description level-description-medium" [ngClass]="{'show': currHoveredLevel === 'medium'}">
+                {{levelDescription}}
+            </div>
+
         </button>
         <button (mouseenter)="setLevelDescription('hard')" (mouseleave)="setLevelDescription('')"
-            (click)="onLevelSelect('hard')">
+            (click)="onLevelSelect('hard')" class="regular-btn">
             Hard
+            <div class="description level-description-hard" [ngClass]="{'show': currHoveredLevel === 'hard'}">
+                {{levelDescription}}
+            </div>
+
         </button>
-    </div>
-    <div *ngIf="levelDescription" [ngClass]="{'show': levelDescription}" class="level-description">{{levelDescription}}
+        <!-- <div *ngIf="levelDescription" [ngClass]="{'show': levelDescription}" class="level-description">{{levelDescription}}
+        </div> -->
     </div>
 </section>

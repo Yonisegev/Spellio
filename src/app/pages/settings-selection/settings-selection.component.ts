@@ -10,6 +10,7 @@ export class SettingsSelectionComponent implements OnInit {
   constructor() { }
   @Output() onLevelSelected = new EventEmitter<string>()
   levelDescription: string = ''
+  currHoveredLevel: string = ''
   ngOnInit(): void {
   }
 
@@ -19,16 +20,20 @@ export class SettingsSelectionComponent implements OnInit {
   }
 
   setLevelDescription(level: string) {
-    if(level === 'easy') {
+    if (level === 'easy') {
       this.levelDescription = 'Spell 3 words'
-    } else if(level === 'medium') {
+      this.currHoveredLevel = 'easy'
+    } else if (level === 'medium') {
       this.levelDescription = 'Spell 5 words'
-    } else if(level === 'hard') {
+      this.currHoveredLevel = 'medium'
+    } else if (level === 'hard') {
       this.levelDescription = 'Spell 10 words'
+      this.currHoveredLevel = 'hard'
     } else {
       this.levelDescription = ''
+      this.currHoveredLevel = ''
     }
   }
-  
+
 
 }

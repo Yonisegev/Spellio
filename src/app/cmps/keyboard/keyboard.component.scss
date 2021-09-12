@@ -1,11 +1,15 @@
 :host {
     width: 100vw;
+    display: flex;
+    justify-content: center;
 }
 .keyboard-base {
     width: 100%;
     max-width: 1085px;
     padding: 20px;
-    background-color: rgb(197, 197, 197);
+    background-color: #305B88;
+    color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     border-radius: 10px;
     display: grid;
     grid-template-columns: repeat(30, minmax(10px, 30px));

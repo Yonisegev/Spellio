@@ -1,5 +1,5 @@
 /* Breakpoint mixins */
-
+@import "../setup/functions";
 @mixin for-mobile-layout {
     @media (max-width: $mobile-breakpoint) {
         @content;
@@ -21,5 +21,19 @@
 @mixin for-wide-layout {
     @media (min-width: $normal-breakpoint) {
         @content;
+    }
+}
+
+@mixin regular-btn {
+    font-size: rem(20px);
+    background-color: #f04882;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 3px;
+
+    transition: 0.3s background-color;
+
+    &:hover {
+        background-color: darken(#f04882, 5%);
     }
 }

@@ -46,4 +46,6 @@ export class WordService {
         return 3
     }
   }
+
+
 }
