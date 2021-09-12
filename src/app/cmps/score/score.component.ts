@@ -15,10 +15,15 @@ export class ScoreComponent implements OnInit {
   }
 
 
-  addScore(guessStartTime: number | null) {
-    if (!guessStartTime) return
+  updateScore(action: string, guessStartTime: number | null) {
+    let scoreToAdd: number = 0
     let guessEndTime = Date.now()
-    const scoreToAdd: number = this.gameService.calculateScore(guessStartTime, guessEndTime)
+    if (action === 'add') {
+      if (!guessStartTime) return
+      scoreToAdd = this.gameService.calculateScore(guessStartTime, guessEndTime)
+    } else if (action === 'lower') {
+      scoreToAdd = this.gameService.calculateScore(0, 0)
+    }
     this.animatedScore = scoreToAdd
     setTimeout(() => {
       this.animatedScore = null
@@ -27,15 +32,4 @@ export class ScoreComponent implements OnInit {
       this.score += scoreToAdd
     }, 850)
   }
-
-  lowerScore() {
-    this.animatedScore = -100
-    setTimeout(() => {
-      this.animatedScore = null
-    }, 750)
-    setTimeout(() => {
-      this.score += -100
-    }, 850)
-  }
-
 }

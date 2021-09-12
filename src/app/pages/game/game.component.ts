@@ -97,7 +97,7 @@ export class GameComponent implements OnInit {
       this.currWordNum++
       this.hint = ''
       this.error = ''
-      this.scoreCmp?.addScore(this.startGuessTime)
+      this.scoreCmp?.updateScore('add', this.startGuessTime)
       if (this.wordsRemaining <= 0) {
         alert('game over')
         this.isGameOn = false
@@ -113,7 +113,7 @@ export class GameComponent implements OnInit {
     this.isWrongGuess = true
     const errorSound = new Audio('../../../assets/sounds/error.wav')
     errorSound.play()
-    this.scoreCmp?.lowerScore()
+    this.scoreCmp?.updateScore('lower', null)
     setTimeout(() => {
       this.isWrongGuess = false
     }, 1000)

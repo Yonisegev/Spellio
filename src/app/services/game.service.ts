@@ -19,7 +19,10 @@ export class GameService {
   public calculateScore(startTime: number, endTime: number): number {
     const diff = endTime - startTime
     const diffInSeconds = +((diff % 60000) / 1000).toFixed(0)
+    console.log('diff in ', diffInSeconds)
     switch (true) {
+      case (diffInSeconds === 0):
+        return -100
       case (diffInSeconds <= 2):
         return 500
       case (diffInSeconds <= 5):
