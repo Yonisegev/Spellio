@@ -1,30 +1,37 @@
 <section class="settings flex column align-center">
-    <h4>Select Difficulty</h4>
-    <div class="levels flex">
-        <button (mouseenter)="setLevelDescription('easy')" (mouseleave)="setLevelDescription('')"
-            (click)="onLevelSelect('easy')" class="regular-btn">
-            Easy
-            <div class="description level-description-easy" [ngClass]="{'show': currHoveredLevel === 'easy'}">
-                {{levelDescription}}
-            </div>
-        </button>
-        <button (mouseenter)="setLevelDescription('medium')" (mouseleave)="setLevelDescription('')"
-            (click)="onLevelSelect('medium')" class="regular-btn">
-            Medium
-            <div class="description level-description-medium" [ngClass]="{'show': currHoveredLevel === 'medium'}">
-                {{levelDescription}}
-            </div>
+    <div *ngIf="!username" class="username">
+        <h4>Enter your name</h4>
+        <form class="flex column" (ngSubmit)="onSaveUsername(usernameInput.value)">
+            <input #usernameInput type="text" required>
+            <button>Save</button>
+        </form>
+    </div>
+    <div class="levels-container" [ngClass]="{'hidden': !username}">
+        <h4>Select Difficulty</h4>
+        <div class="levels flex">
+            <button (mouseenter)="setLevelDescription('easy')" (mouseleave)="setLevelDescription('')"
+                [disabled]="!username" (click)="onLevelSelect('easy')" class="regular-btn">
+                Easy
+                <div class="description level-description-easy" [ngClass]="{'show': currHoveredLevel === 'easy'}">
+                    {{levelDescription}}
+                </div>
+            </button>
+            <button (mouseenter)="setLevelDescription('medium')" (mouseleave)="setLevelDescription('')"
+                [disabled]="!username" (click)="onLevelSelect('medium')" class="regular-btn">
+                Medium
+                <div class="description level-description-medium" [ngClass]="{'show': currHoveredLevel === 'medium'}">
+                    {{levelDescription}}
+                </div>
 
-        </button>
-        <button (mouseenter)="setLevelDescription('hard')" (mouseleave)="setLevelDescription('')"
-            (click)="onLevelSelect('hard')" class="regular-btn">
-            Hard
-            <div class="description level-description-hard" [ngClass]="{'show': currHoveredLevel === 'hard'}">
-                {{levelDescription}}
-            </div>
+            </button>
+            <button (mouseenter)="setLevelDescription('hard')" (mouseleave)="setLevelDescription('')"
+                [disabled]="!username" (click)="onLevelSelect('hard')" class="regular-btn">
+                Hard
+                <div class="description level-description-hard" [ngClass]="{'show': currHoveredLevel === 'hard'}">
+                    {{levelDescription}}
+                </div>
 
-        </button>
-        <!-- <div *ngIf="levelDescription" [ngClass]="{'show': levelDescription}" class="level-description">{{levelDescription}}
-        </div> -->
+            </button>
+        </div>
     </div>
 </section>

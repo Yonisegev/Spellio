@@ -28,8 +28,10 @@ export class ScoreComponent implements OnInit {
     setTimeout(() => {
       this.animatedScore = null
     }, 750)
-    setTimeout(() => {
-      this.score += scoreToAdd
-    }, 850)
+    this.score += scoreToAdd
+  }
+
+  get scoreValue(): number {
+    return this.score
   }
 }

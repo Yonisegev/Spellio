@@ -11,43 +11,65 @@
     h4 {
         font-size: rem(36px);
         font-family: Londrina-Light, cursive;
-        margin-bottom: 8px;
+        text-align: center;
     }
-    .levels {
-        button {
-            position: relative;
-            // @include regular-btn;
-
-            &:not(:first-of-type) {
-                margin-left: 30px;
-            }
+    .username {
+        margin-bottom: 10px;
+        input {
+            @include input;
+            border-bottom: 3px solid #f04882;
         }
-        .description {
-            position: absolute;
-            top: 50px;
-            left: -50%;
+        button {
+            @include game-btn;
+        }
+    }
+    .levels-container {
+        transition: opacity 0.3s;
+        &.hidden {
             visibility: hidden;
             opacity: 0;
-            max-height: 0;
-            max-width: 0;
-            font-size: rem(18px);
-            border-radius: 3px;
-
-            transition: opacity 0.3s;
-
-            &.show {
-                visibility: visible;
-                opacity: 1;
-                background-color: #f3ca40;
-                color: #333;
-                width: 200px;
-                padding: 20px;
-                max-height: initial;
-                max-width: initial;
-            }
+            width: 0;
+            height: 0;
         }
-        .level-description-medium {
-            left: -30%;
+        h4 {
+            margin-bottom: 8px;
+        }
+        .levels {
+            button {
+                position: relative;
+                // @include regular-btn;
+
+                &:not(:first-of-type) {
+                    margin-left: 30px;
+                }
+            }
+            .description {
+                position: absolute;
+                top: 50px;
+                left: -50%;
+                visibility: hidden;
+                opacity: 0;
+                max-height: 0;
+                max-width: 0;
+                font-size: rem(18px);
+                border-radius: 3px;
+
+                transition: opacity 0.3s;
+
+                &.show {
+                    visibility: visible;
+                    opacity: 1;
+                    background-color: #f3ca40;
+                    color: #333;
+                    width: 200px;
+                    padding: 20px;
+                    max-height: initial;
+                    max-width: initial;
+                }
+            }
+            .level-description-medium {
+                left: -30%;
+            }
         }
     }
 }

@@ -25,13 +25,13 @@ export class GameComponent implements OnInit {
   isGameOn: boolean = false
   isFirstTime: boolean = true
   isWrongGuess: boolean = false
+  isLoadingHint: boolean = false
   randomWord: string = ''
-  audio: HTMLAudioElement | null = null
   userInput: string = ''
   subs$: Subject<boolean> = new Subject<boolean>()
   error: string = ''
   hint: string = ''
-  score: number = 0
+  endingScore: number | undefined
   startGuessTime: number | null = null
 
   ngOnInit(): void {
@@ -53,7 +53,6 @@ export class GameComponent implements OnInit {
     this.isFirstTime = false
     this.wordsRemaining = this.wordService.getLevelWordsCount(this.level)
     this.currWordNum = 0
-    this.score = 0
     this.totalWords = this.wordsRemaining
     this.generateAndPlayRandomWord()
   }
@@ -72,8 +71,8 @@ export class GameComponent implements OnInit {
   }
 
   playWordSound() {
-    this.audio = new Audio(`//localhost:3030/audio/${this.randomWord}.mp3`)
-    this.audio.play()
+    const audio = new Audio(`//localhost:3030/audio/${this.randomWord}.mp3`)
+    audio.play()
   }
 
   onUserInput(ev: KeyboardEvent) {
@@ -92,14 +91,16 @@ export class GameComponent implements OnInit {
   }
 
   onCorrectSpelling() {
+    this.scoreCmp?.updateScore('add', this.startGuessTime)
     if (this.wordsRemaining > 0) {
       this.wordsRemaining--
       this.currWordNum++
       this.hint = ''
       this.error = ''
-      this.scoreCmp?.updateScore('add', this.startGuessTime)
+      // this.scoreCmp?.updateScore('add', this.startGuessTime)
       if (this.wordsRemaining <= 0) {
-        alert('game over')
+        // alert('game over')
+        this.endingScore = this.scoreCmp?.scoreValue
         this.isGameOn = false
       } else {
         this.generateAndPlayRandomWord()
@@ -129,10 +130,12 @@ export class GameComponent implements OnInit {
   }
 
   onGetHint() {
+    this.isLoadingHint = true
     this.wordService.getWordDefinition(this.randomWord)
       .pipe(takeUntil(this.subs$))
       .subscribe(
         definition => {
+          this.isLoadingHint = false
           this.hint = definition
         },
         err => {

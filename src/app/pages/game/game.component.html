@@ -3,11 +3,19 @@
         <button (click)="onStartGame()" class="regular-btn">{{isFirstTime ? 'I am ready' : 'Play again' }}</button>
         <button (click)="onResetDifficulty.emit()" class="regular-btn">Change Difficulty</button>
     </section>
+    <ng-container *ngIf="!isGameOn && endingScore" class="ending-screen">
+        <ending-screen [endingScore]="endingScore"></ending-screen>
+    </ng-container>
     <section *ngIf="isGameOn" class="game-container flex column align-center">
         <score #score></score>
         <div class="actions flex justify-center">
             <button (click)="playWordSound()" class="regular-btn">Play word again</button>
-            <button (click)="onGetHint()" class="regular-btn">Hint</button>
+            <button *ngIf="!isLoadingHint; else showSpinner" (click)="onGetHint()" class="regular-btn">Hint</button>
+            <ng-template #showSpinner>
+                <button class="regular-btn flex">
+                    <img class="spinner" src="../../../assets/img/spinner.svg">
+                </button>
+            </ng-template>
             <button (click)="onResetDifficulty.emit()" class="regular-btn">Change Difficulty</button>
         </div>
         <div class="progress-count-container flex">

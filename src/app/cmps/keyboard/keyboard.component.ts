@@ -13,7 +13,6 @@ export class KeyboardComponent implements OnInit {
   sub: Subscription | undefined
   ngOnInit(): void {
     this.gameService.clickedLetter$.subscribe(letter => {
-      console.log('from keyboard cmp', letter)
     })
   }
 

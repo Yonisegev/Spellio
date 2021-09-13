@@ -18,6 +18,10 @@
             & > *:not(:first-of-type) {
                 margin-left: 8px;
             }
+            .spinner {
+                width: 25px;
+                height: 25px;
+            }
         }
         .progress-count-container {
             margin-bottom: 10px;
@@ -48,21 +52,13 @@
         .error,
         .hint {
             margin-bottom: 10px;
+            text-align: center;
         }
 
         form {
             margin-bottom: 20px;
             input {
-                font-family: Londrina-Black, cursive;
-                max-width: 460px;
-                font-size: rem(50px);
-                outline: none;
-                color: #fff;
-                text-shadow: 1px 2px 0 #f04882;
-                letter-spacing: 1.8px;
-                border: none;
-                text-align: center;
-                background: none;
+                @include input;
 
                 &::placeholder {
                     text-align: center;
@@ -70,21 +66,12 @@
                 &.wrong {
                     position: relative;
                     animation: shake 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-                    background: url('../../../assets/img/error-icon.png') 95% 50% no-repeat;
+                    background: url("../../../assets/img/error-icon.png") 95% 50% no-repeat;
                     background-size: 25px 25px;
                 }
             }
             button {
-                font-family: Londrina, cursive;
-                background-color: #ff754a;
-                border: none;
-                border-radius: 3px;
-                font-size: rem(30px);
-                padding: 10px 20px;
-                cursor: pointer;
-                color: #fff;
-                transition: 0.3s;
-                margin: 10px 0;
+                @include game-btn;
             }
         }
     }

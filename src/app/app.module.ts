@@ -9,6 +9,7 @@ import { SettingsSelectionComponent } from './pages/settings-selection/settings-
 import { KeyboardComponent } from './cmps/keyboard/keyboard.component';
 import { KeyboardClickDirective } from './directives/keyboard-click.directive';
 import { ScoreComponent } from './cmps/score/score.component';
+import { EndingScreenComponent } from './pages/ending-screen/ending-screen.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { ScoreComponent } from './cmps/score/score.component';
     KeyboardComponent,
     KeyboardClickDirective,
     ScoreComponent,
+    EndingScreenComponent,
   ],
   imports: [
     BrowserModule,
