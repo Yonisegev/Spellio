@@ -13,9 +13,12 @@ export class EndingScreenComponent implements OnInit {
   constructor(private gameService: GameService) { }
   @Input() endingScore: number | undefined
   user$: Observable<User> | undefined
-  
+
   ngOnInit(): void {
     this.user$= this.gameService.currUser$
+    // this.gameService.getLeaderboardScores().subscribe(userScores => {
+    //   console.log(userScores)
+    // })
   }
 
 }

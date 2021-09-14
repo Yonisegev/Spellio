@@ -25,7 +25,7 @@ export class GameService {
 
   public setCurrUsername(username: string) {
     const user: User = {
-      id: uuid(),
+      userId: uuid(),
       username,
     }
     this._currUser$.next(user)
@@ -50,10 +50,21 @@ export class GameService {
     }
   }
 
-  public updateLeaderboards(score: number, level: string) {    
-    const currUser = this._currUser$.value
+  public getLeaderboardScores() {
+    return this.http.get(environment.leaderboardsURL)
+  }
+
+  public updateLeaderboard(score: number, level: string) {
+    let currUser = this._currUser$.value
+    if (!currUser) {
+      currUser = {
+        userId: uuid(),
+        username: 'Guest',
+
+      }
+    }
     const userWithScore = { ...currUser, score, level }
-    return this.http.post(environment.leaderboardsURL, userWithScore)
+    return this.http.post(environment.leaderboardsURL, userWithScore, { withCredentials: true })
   }
 
   private getUserFromStorage() {

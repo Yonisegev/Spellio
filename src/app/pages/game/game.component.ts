@@ -126,7 +126,7 @@ export class GameComponent implements OnInit, OnDestroy {
   onGameOver() {
     this.endingScore = this.scoreCmp?.scoreValue
     this.isGameOn = false
-    this.gameService.updateLeaderboards(this.endingScore || 0, this.level!).subscribe()
+    this.gameService.updateLeaderboard(this.endingScore || 0, this.level!).subscribe()
   }
 
   handleLetter(letterData: LetterData) {
