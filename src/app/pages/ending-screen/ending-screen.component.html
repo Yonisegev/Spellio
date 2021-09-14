@@ -1,3 +1,3 @@
 <div class="ending-screen flex column align-center">
-    <h3>Good job, {{username}}, you scored {{endingScore}} points!</h3>
+    <h3>Good job, <span *ngIf="user$">{{(user$ | async)?.username }},</span> you scored {{endingScore}} points! 🥳</h3>
 </div>

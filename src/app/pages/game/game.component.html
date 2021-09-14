@@ -25,7 +25,7 @@
         <span *ngIf="error" class="error">{{error}}</span>
         <span *ngIf="hint" class="hint">{{hint}}</span>
         <form (ngSubmit)="onWordSubmit($event)" class="flex">
-            <input [ngClass]="{'wrong': isWrongGuess}" type="text" name="user-input" [(ngModel)]="userInput"
+            <input #guessInput [ngClass]="{'wrong': isWrongGuess}" type="text" name="user-input" [(ngModel)]="userInput"
                 #keyboardInput (keydown)="onUserInput($event)" autocomplete="off" placeholder="Start typing...">
             <button>Guess</button>
         </form>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { WordService as WordService } from 'src/app/services/word.service';
 // @ts-ignore
 import randomWords from 'random-words'
@@ -10,15 +10,11 @@ import { ScoreComponent } from 'src/app/cmps/score/score.component';
 @Component({
   selector: 'game',
   templateUrl: './game.component.html',
-  styleUrls: ['./game.component.scss']
+  styleUrls: ['./game.component.scss'],
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, OnDestroy {
 
   constructor(private wordService: WordService, private gameService: GameService) { }
-  @Input() level?: string
-  @Output() onResetDifficulty = new EventEmitter()
-  @ViewChild('score')
-  private scoreCmp: ScoreComponent | undefined
   wordsRemaining: number = 3
   totalWords: number = this.wordsRemaining
   currWordNum: number = 0
@@ -33,13 +29,19 @@ export class GameComponent implements OnInit {
   hint: string = ''
   endingScore: number | undefined
   startGuessTime: number | null = null
+  @Input() level?: string
+  @Output() onResetDifficulty = new EventEmitter()
+  @ViewChild('score')
+  private scoreCmp: ScoreComponent | undefined
+  @ViewChild('guessInput')
+  set input(element: ElementRef<HTMLInputElement>) {
+    if (element) {
+      element.nativeElement.focus()
+    }
+  }
 
   ngOnInit(): void {
-    this.gameService.clickedLetter$
-      .pipe(takeUntil(this.subs$))
-      .subscribe(letterData => {
-        this.handleLetter(letterData)
-      })
+    this.initLetterSub()
   }
 
   ngOnDestroy() {
@@ -60,18 +62,20 @@ export class GameComponent implements OnInit {
   generateAndPlayRandomWord() {
     this.randomWord = randomWords()
     console.log(this.randomWord)
-    this.wordService.textToSpeech(this.randomWord)
+    // CHANGE IN PROD
+    this.wordService.textToSpeech('hey')
       .pipe(takeUntil(this.subs$))
       .subscribe(
         () => {
           this.startGuessTime = Date.now()
           this.playWordSound()
         },
-        err => this.generateAndPlayRandomWord())
+      )
   }
 
   playWordSound() {
-    const audio = new Audio(`//localhost:3030/audio/${this.randomWord}.mp3`)
+    // CHANGE IN PROD
+    const audio = new Audio(`//localhost:3030/audio/${'hey'}.mp3`)
     audio.play()
   }
 
@@ -82,7 +86,9 @@ export class GameComponent implements OnInit {
   onWordSubmit(ev: Event) {
     ev.preventDefault()
     this.userInput = this.userInput.toLowerCase()
-    if (this.userInput === this.randomWord) {
+    // CHANGE IN PROD
+
+    if (this.userInput === 'hey') {
       this.onCorrectSpelling()
     } else {
       this.onWrongSpelling()
@@ -97,11 +103,8 @@ export class GameComponent implements OnInit {
       this.currWordNum++
       this.hint = ''
       this.error = ''
-      // this.scoreCmp?.updateScore('add', this.startGuessTime)
       if (this.wordsRemaining <= 0) {
-        // alert('game over')
-        this.endingScore = this.scoreCmp?.scoreValue
-        this.isGameOn = false
+        this.onGameOver()
       } else {
         this.generateAndPlayRandomWord()
       }
@@ -120,6 +123,12 @@ export class GameComponent implements OnInit {
     }, 1000)
   }
 
+  onGameOver() {
+    this.endingScore = this.scoreCmp?.scoreValue
+    this.isGameOn = false
+    this.gameService.updateLeaderboards(this.endingScore || 0, this.level!).subscribe()
+  }
+
   handleLetter(letterData: LetterData) {
     if (!this.isGameOn) return
     const { letter, origin } = letterData
@@ -130,6 +139,7 @@ export class GameComponent implements OnInit {
   }
 
   onGetHint() {
+    if (this.hint) return
     this.isLoadingHint = true
     this.wordService.getWordDefinition(this.randomWord)
       .pipe(takeUntil(this.subs$))
@@ -143,6 +153,13 @@ export class GameComponent implements OnInit {
         })
   }
 
+  private initLetterSub() {
+    this.gameService.clickedLetter$
+      .pipe(takeUntil(this.subs$))
+      .subscribe(letterData => {
+        this.handleLetter(letterData)
+      })
+  }
 
 
 

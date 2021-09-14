@@ -10,6 +10,7 @@ import { KeyboardComponent } from './cmps/keyboard/keyboard.component';
 import { KeyboardClickDirective } from './directives/keyboard-click.directive';
 import { ScoreComponent } from './cmps/score/score.component';
 import { EndingScreenComponent } from './pages/ending-screen/ending-screen.component';
+import { LeaderboardsComponent } from './pages/leaderboards/leaderboards.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { EndingScreenComponent } from './pages/ending-screen/ending-screen.compo
     KeyboardClickDirective,
     ScoreComponent,
     EndingScreenComponent,
+    LeaderboardsComponent,
   ],
   imports: [
     BrowserModule,

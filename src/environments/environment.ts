@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  leaderboardsURL: '//localhost:3030/api/leaderboards',
+  speechURL: '//localhost:3030/api/tts',
+  dictionaryURL: 'https://api.dictionaryapi.dev/api/v2/entries/en'
 };
 
 /*

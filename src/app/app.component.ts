@@ -11,7 +11,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
 
   }
-
+  
   onSetLevel(difficulty: string) {
     this.levelSelected = difficulty
   }

@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators'
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +10,11 @@ import { catchError, map, retry } from 'rxjs/operators'
 export class WordService {
 
   constructor(private http: HttpClient) { }
+
   public textToSpeech(txt: string) {
     let httpParams: HttpParams = new HttpParams()
       .set('text', txt)
-    return this.http.get('//localhost:3030/api/tts', { params: httpParams, responseType: 'text' })
+    return this.http.get(environment.speechURL, { params: httpParams, responseType: 'text' })
       .pipe(
         retry(3),
         catchError((err) => throwError('Failed to fetch sound'))
@@ -20,7 +22,7 @@ export class WordService {
   }
 
   public getWordDefinition(word: string): Observable<any> {
-    return this.http.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`).
+    return this.http.get(`${environment.dictionaryURL}/${word}`).
       pipe(
         map((data: any) => {
           const definition = data[0].meanings[0].definitions[0].definition

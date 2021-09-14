@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { User } from 'src/app/models/user';
 import { GameService } from 'src/app/services/game.service';
 
 @Component({
@@ -13,10 +14,10 @@ export class SettingsSelectionComponent implements OnInit, OnDestroy {
   @Output() onLevelSelected = new EventEmitter<string>()
   levelDescription: string = ''
   currHoveredLevel: string = ''
-  username: string = ''
+  user: User | undefined
   currUserSub: Subscription | undefined
   ngOnInit(): void {
-    this.currUserSub = this.gameService.currUser$.subscribe(user => this.username = user)
+    this.currUserSub = this.gameService.currUser$.subscribe(user => this.user = user)
   }
 
   ngOnDestroy() {
@@ -29,7 +30,7 @@ export class SettingsSelectionComponent implements OnInit, OnDestroy {
 
   onLevelSelect(difficulty: string) {
     console.log(difficulty)
-    if (!this.username) return
+    if (!this.user) return
     this.onLevelSelected.emit(difficulty)
   }
 

@@ -1,35 +1,44 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LetterData } from '../models/letter-data';
 import { UtilService } from './util.service';
+import { v4 as uuid } from 'uuid'
+import { User } from '../models/user';
+import { environment } from 'src/environments/environment'
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
 
-  constructor(private utilService: UtilService) { }
+  constructor(private utilService: UtilService, private http: HttpClient) { }
 
   private _clickedLetter$: BehaviorSubject<LetterData> = new BehaviorSubject({ letter: '', origin: '' })
   public clickedLetter$: Observable<LetterData> = this._clickedLetter$.asObservable()
-  private _currUser$: BehaviorSubject<any> = new BehaviorSubject(this.getUserFromStorage())
-  public currUser$: Observable<any> = this._currUser$.asObservable()
+  private _currUser$: BehaviorSubject<User> = new BehaviorSubject(this.getUserFromStorage())
+  public currUser$: Observable<User> = this._currUser$.asObservable()
 
   public setClickedLetter(letterData: LetterData): void {
     this._clickedLetter$.next(letterData)
   }
 
   public setCurrUsername(username: string) {
-    this._currUser$.next(username)
-    this.utilService.saveToStorage('user', username)
+    const user: User = {
+      id: uuid(),
+      username,
+    }
+    this._currUser$.next(user)
+    this.utilService.saveToStorage('user', user)
   }
 
-  public calculateScore(startTime: number, endTime: number): number {
+  public calculateScore(startTime: number | null, endTime: number | null): number {
+    if (!startTime || !endTime) {
+      return -100
+    }
     const diff = endTime - startTime
     const diffInSeconds = +((diff % 60000) / 1000).toFixed(0)
     switch (true) {
-      case (diffInSeconds === 0):
-        return -100
       case (diffInSeconds <= 2):
         return 500
       case (diffInSeconds <= 5):
@@ -40,9 +49,16 @@ export class GameService {
         return 0
     }
   }
+
+  public updateLeaderboards(score: number, level: string) {    
+    const currUser = this._currUser$.value
+    const userWithScore = { ...currUser, score, level }
+    return this.http.post(environment.leaderboardsURL, userWithScore)
+  }
+
   private getUserFromStorage() {
     let user = this.utilService.loadFromStorage('user')
-    if (!user) return ''
+    if (!user) return null
     return user
   }
 }

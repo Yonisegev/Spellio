@@ -9,7 +9,7 @@ export class KeyboardClickDirective {
   constructor(el: ElementRef, private gameService: GameService) {
     this.gameService.clickedLetter$.subscribe(letterData => {
       const classes = Array.from(el.nativeElement.classList)
-      if (classes[1] === letterData.letter) {
+      if (classes.includes(letterData.letter)) {
         el.nativeElement.classList.add('active')
         this.timeoutId = setTimeout(() => {
           el.nativeElement.classList.remove('active')
