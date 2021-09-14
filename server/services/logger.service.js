@@ -1,5 +1,4 @@
 const fs = require('fs')
-const asyncLocalStorage = require('./als.service')
 
 
 const logsDir = './logs'
@@ -16,10 +15,6 @@ function getTime() {
 function doLog(level, ...args) {
     const strs = args.map(arg => (typeof arg === 'string') ? arg : JSON.stringify(arg))
     var line = strs.join(' | ')
-    const store = asyncLocalStorage.getStore()
-    const sessionId = store?.sessionId
-    const sid = sessionId ? `(sid: ${sessionId})` : ''
-    line = `${getTime()} - ${level} - ${line} ${sid}\n`
     console.log(line)
     fs.appendFileSync('./logs/backend.log', line)
 }
