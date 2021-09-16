@@ -30,7 +30,6 @@ export class SettingsSelectionComponent implements OnInit, OnDestroy {
   }
 
   onLevelSelect(difficulty: string) {
-    console.log(difficulty)
     if (!this.user) return
     this.onLevelSelected.emit(difficulty)
   }

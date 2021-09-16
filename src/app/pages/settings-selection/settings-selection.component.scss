@@ -13,8 +13,12 @@
         font-family: Londrina-Light, cursive;
         text-align: center;
     }
+
     .username {
         margin-bottom: 10px;
+        @media screen and (max-width: 496px) {
+            width: 98%;
+        }
         input {
             @include input;
             border-bottom: 3px solid #f04882;
@@ -70,5 +74,8 @@
                 left: -30%;
             }
         }
+    }
+    @media screen and (max-width: 496px) {
+        width: 98%;
     }
 }

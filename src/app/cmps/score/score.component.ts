@@ -12,7 +12,6 @@ export class ScoreComponent {
   score: number = 0
   animatedScore: number | null = null
 
-
   updateScore(action: string, guessStartTime: number | null) {
     let scoreToAdd: number = 0
     let guessEndTime = Date.now()

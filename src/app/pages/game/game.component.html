@@ -7,7 +7,6 @@
         <ending-screen [endingScore]="endingScore"></ending-screen>
     </ng-container>
     <section *ngIf="isGameOn" class="game-container flex column align-center">
-        <score #score></score>
         <div class="actions flex justify-center">
             <button (click)="playWordSound()" class="regular-btn">Play word again</button>
             <button *ngIf="!isLoadingHint; else showSpinner" (click)="onGetHint()" class="regular-btn">Hint</button>
@@ -18,13 +17,14 @@
             </ng-template>
             <button (click)="onResetDifficulty.emit()" class="regular-btn">Change Difficulty</button>
         </div>
+        <score #score></score>
         <div class="progress-count-container flex">
             <span class="word-remaining word-{{idx + 1}}" *ngFor="let _ of [].constructor(totalWords); let idx = index"
                 [ngClass]="{'filled': currWordNum >= idx + 1}"></span>
         </div>
         <span *ngIf="error" class="error">{{error}}</span>
         <span *ngIf="hint" class="hint">{{hint}}</span>
-        <form (ngSubmit)="onWordSubmit($event)" class="flex">
+        <form (ngSubmit)="onWordSubmit($event)" class="flex column align-center">
             <input #guessInput [ngClass]="{'wrong': isWrongGuess}" type="text" name="user-input" [(ngModel)]="userInput"
                 #keyboardInput (keydown)="onUserInput($event)" autocomplete="off" placeholder="Start typing...">
             <button>Guess</button>

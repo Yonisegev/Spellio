@@ -3,6 +3,10 @@
 :host {
     position: absolute;
     right: 0;
+
+    @media screen and (max-width: 760px) {
+        position: static;
+    }
 }
 
 .score-container {
@@ -11,6 +15,10 @@
         font-size: rem(20px);
         padding: 8px 20px;
         padding-right: 0;
+
+        @media screen and (max-width: 760px) {
+            font-size: 2rem;
+        }
     }
     .animated-added-score {
         font-size: rem(20px);
@@ -18,7 +26,7 @@
         top: 100px;
         right: 0;
 
-        transition: all .3s;
+        transition: all 0.3s;
 
         &.swipe {
             animation: slideup 0.3s both;

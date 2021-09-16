@@ -12,12 +12,12 @@ export class LeaderboardsComponent implements OnInit {
 
   constructor(private gameService: GameService) { }
   leaderboardScores$: Observable<LeaderboardUser[]> | undefined
-  selectedLvl: string = 'easy'
+  selectedLvl: string = 'medium'
   ngOnInit(): void {
     this.onFetchLeaderboardScores()
   }
 
-  onFetchLeaderboardScores(lvl: string = 'easy') {
+  onFetchLeaderboardScores(lvl: string = 'medium') {
     this.selectedLvl = lvl
     this.leaderboardScores$ = this.gameService.getLeaderboardScores(lvl)
   }

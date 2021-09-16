@@ -8,7 +8,7 @@
         margin-bottom: 10px;
         button {
             border-radius: 25px;
-            width: 160px;
+            width: 120px;
             text-align: center;
             background-color: transparent;
             color: #fff;
@@ -19,17 +19,24 @@
             border: 2px solid transparent;
             transition: border 0.3s;
 
+            @media screen and (max-width: 496px) {
+                width: 105px;
+            }
             &.highlighted-option {
                 border: 2px solid #f04882;
             }
         }
     }
     .trophy-container {
-        width: 200px;
+        width: 120px;
         margin-bottom: 15px;
     }
     .leaderboard-container {
         width: 490px;
+
+        @media screen and (max-width: 496px) {
+            width: 98%;
+        }
 
         ul {
             width: 100%;
@@ -37,6 +44,7 @@
             li {
                 font-size: rem(25px);
                 border-radius: 3px;
+                padding: 5px;
                 &:first-of-type {
                     background-color: #fec107;
                 }
@@ -44,7 +52,7 @@
                     background-color: silver;
                 }
                 &:nth-of-type(3) {
-                    background-color: #AC7D18;
+                    background-color: #ac7d18;
                 }
                 &:not(:last-of-type) {
                     margin-bottom: 5px;

@@ -13,7 +13,6 @@ import { ScoreComponent } from 'src/app/cmps/score/score.component';
   styleUrls: ['./game.component.scss'],
 })
 export class GameComponent implements OnInit, OnDestroy {
-
   constructor(private wordService: WordService, private gameService: GameService) { }
   wordsRemaining: number = 3
   totalWords: number = this.wordsRemaining
@@ -49,7 +48,6 @@ export class GameComponent implements OnInit, OnDestroy {
     this.subs$.unsubscribe()
   }
 
-
   onStartGame() {
     this.isGameOn = true
     this.isFirstTime = false
@@ -62,8 +60,7 @@ export class GameComponent implements OnInit, OnDestroy {
   generateAndPlayRandomWord() {
     this.randomWord = randomWords()
     console.log(this.randomWord)
-    // CHANGE IN PROD
-    this.wordService.textToSpeech('hey')
+    this.wordService.textToSpeech(this.randomWord)
       .pipe(takeUntil(this.subs$))
       .subscribe(
         () => {
@@ -74,8 +71,7 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   playWordSound() {
-    // CHANGE IN PROD
-    const audio = new Audio(`//localhost:3030/audio/${'hey'}.mp3`)
+    const audio = new Audio(`//localhost:3030/audio/${this.randomWord}.mp3`)
     audio.play()
   }
 
@@ -86,14 +82,11 @@ export class GameComponent implements OnInit, OnDestroy {
   onWordSubmit(ev: Event) {
     ev.preventDefault()
     this.userInput = this.userInput.toLowerCase()
-    // CHANGE IN PROD
-
-    if (this.userInput === 'hey') {
+    if (this.userInput === this.randomWord) {
       this.onCorrectSpelling()
     } else {
       this.onWrongSpelling()
     }
-
   }
 
   onCorrectSpelling() {
@@ -160,7 +153,4 @@ export class GameComponent implements OnInit, OnDestroy {
         this.handleLetter(letterData)
       })
   }
-
-
-
 }
