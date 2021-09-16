@@ -5,7 +5,6 @@ const textToSpeech = require('@google-cloud/text-to-speech');
 const fs = require('fs');
 const util = require('util');
 const app = express();
-const dbService = require('./services/db.service')
 const logger = require('./services/logger.service')
 const leaderboardService = require('./services/leaderboards.service')
 
@@ -40,9 +39,9 @@ app.get('/api/tts', async (req, res) => {
 
 app.get('/api/leaderboard', async (req, res) => {
   try {
-    const collection = await dbService.getCollection('leaderboard')
-    const leaderboardScores = await collection.find({}).toArray()
-    res.send(leaderboardScores)
+    const {level} = req.query
+    const leaderboard = await leaderboardService.getLeaderboardByLevel(level)
+    res.send(leaderboard)
   } catch (err) {
     logger.error('failed to fetch leaderboard scores', err)
   }
@@ -51,9 +50,8 @@ app.get('/api/leaderboard', async (req, res) => {
 app.post('/api/leaderboard', async (req, res) => {
   try {
     const user = req.body
-    console.log(user);
-    const collection = await dbService.getCollection('leaderboard')
-    await leaderboardService.handleLeaderboard(collection, user)
+    if(!user.username || !user.score) return
+    await leaderboardService.handleLeaderboard(user)
     return user
   } catch (err) {
     logger.error('Failed to insert user to leaderboard', err)

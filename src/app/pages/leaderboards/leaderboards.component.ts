@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { LeaderboardUser } from 'src/app/models/leaderboard-user';
+import { GameService } from 'src/app/services/game.service';
 
 @Component({
   selector: 'leaderboards',
@@ -7,9 +10,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LeaderboardsComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private gameService: GameService) { }
+  leaderboardScores$: Observable<LeaderboardUser[]> | undefined
+  selectedLvl: string = 'easy'
   ngOnInit(): void {
+    this.onFetchLeaderboardScores()
+  }
+
+  onFetchLeaderboardScores(lvl: string = 'easy') {
+    this.selectedLvl = lvl
+    this.leaderboardScores$ = this.gameService.getLeaderboardScores(lvl)
   }
 
 }

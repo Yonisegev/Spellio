@@ -14,7 +14,7 @@ export class SettingsSelectionComponent implements OnInit, OnDestroy {
   @Output() onLevelSelected = new EventEmitter<string>()
   levelDescription: string = ''
   currHoveredLevel: string = ''
-  user: User | undefined
+  user: User | null | undefined
   currUserSub: Subscription | undefined
   ngOnInit(): void {
     this.currUserSub = this.gameService.currUser$.subscribe(user => this.user = user)
@@ -25,6 +25,7 @@ export class SettingsSelectionComponent implements OnInit, OnDestroy {
   }
 
   onSaveUsername(username: string) {
+    if (!username) return
     this.gameService.setCurrUsername(username)
   }
 

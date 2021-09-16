@@ -36,7 +36,7 @@ export class WordService {
       )
   }
 
-  public getLevelWordsCount(level: string | undefined) {
+  public getLevelWordsCount(level: string | undefined): number {
     switch (level) {
       case 'easy':
         return 3

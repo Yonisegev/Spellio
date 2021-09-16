@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { GameService } from 'src/app/services/game.service';
 
@@ -12,13 +12,10 @@ export class EndingScreenComponent implements OnInit {
 
   constructor(private gameService: GameService) { }
   @Input() endingScore: number | undefined
-  user$: Observable<User> | undefined
+  user$: Observable<User | null> | undefined
 
   ngOnInit(): void {
-    this.user$= this.gameService.currUser$
-    // this.gameService.getLeaderboardScores().subscribe(userScores => {
-    //   console.log(userScores)
-    // })
+    this.user$ = this.gameService.currUser$
   }
 
 }

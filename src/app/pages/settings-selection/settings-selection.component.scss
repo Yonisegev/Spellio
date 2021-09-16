@@ -37,7 +37,6 @@
         .levels {
             button {
                 position: relative;
-                // @include regular-btn;
 
                 &:not(:first-of-type) {
                     margin-left: 30px;

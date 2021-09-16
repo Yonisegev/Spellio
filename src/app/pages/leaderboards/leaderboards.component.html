@@ -1,1 +1,30 @@
-<p>leaderboards works!</p>
+<main class="leaderboard flex column align-center">
+    <div class="levels flex">
+        <button (click)="onFetchLeaderboardScores('easy')"
+            [ngClass]="selectedLvl === 'easy' ? 'highlighted-option' : ''">Easy</button>
+        <button (click)="onFetchLeaderboardScores('medium')"
+            [ngClass]="selectedLvl === 'medium' ? 'highlighted-option' : ''">Medium</button>
+        <button (click)="onFetchLeaderboardScores('hard')"
+            [ngClass]="selectedLvl === 'hard' ? 'highlighted-option' : ''">Hard</button>
+    </div>
+    <ng-template #loading>
+        <img class="spinner" src="../../../assets/img/spinner.svg" alt="">
+    </ng-template>
+    <ng-container *ngIf="leaderboardScores$ | async else loading">
+        <div class="trophy-container">
+            <img src="../../../assets/img/trophy.png" alt="">
+        </div>
+        <div class="leaderboard-container flex column align-center">
+            <ul>
+                <li *ngFor="let userScore of leaderboardScores$ | async let idx= index" class="flex">
+                    <div class="user-score flex space-around">
+                        <span class="position">#{{idx + 1}}</span>
+                        <span class="username" [title]="userScore.username">{{userScore.username | titlecase}}</span>
+                        <span class="score">{{userScore.score}}</span>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+    </ng-container>
+</main>

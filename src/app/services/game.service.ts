@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LetterData } from '../models/letter-data';
@@ -6,6 +6,7 @@ import { UtilService } from './util.service';
 import { v4 as uuid } from 'uuid'
 import { User } from '../models/user';
 import { environment } from 'src/environments/environment'
+import { LeaderboardUser } from '../models/leaderboard-user';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,8 @@ export class GameService {
 
   private _clickedLetter$: BehaviorSubject<LetterData> = new BehaviorSubject({ letter: '', origin: '' })
   public clickedLetter$: Observable<LetterData> = this._clickedLetter$.asObservable()
-  private _currUser$: BehaviorSubject<User> = new BehaviorSubject(this.getUserFromStorage())
-  public currUser$: Observable<User> = this._currUser$.asObservable()
+  private _currUser$: BehaviorSubject<User | null> = new BehaviorSubject(this.getUserFromStorage())
+  public currUser$: Observable<User | null> = this._currUser$.asObservable()
 
   public setClickedLetter(letterData: LetterData): void {
     this._clickedLetter$.next(letterData)
@@ -50,11 +51,13 @@ export class GameService {
     }
   }
 
-  public getLeaderboardScores() {
-    return this.http.get(environment.leaderboardsURL)
+  public getLeaderboardScores(level = 'hard'): Observable<LeaderboardUser[]> {
+    const httpParams: HttpParams = new HttpParams()
+      .set('level', level)
+    return this.http.get<LeaderboardUser[]>(environment.leaderboardsURL, { params: httpParams })
   }
 
-  public updateLeaderboard(score: number, level: string) {
+  public updateLeaderboard(score: number, level: string): Observable<User> {
     let currUser = this._currUser$.value
     if (!currUser) {
       currUser = {
@@ -64,10 +67,10 @@ export class GameService {
       }
     }
     const userWithScore = { ...currUser, score, level }
-    return this.http.post(environment.leaderboardsURL, userWithScore, { withCredentials: true })
+    return this.http.post<User>(environment.leaderboardsURL, userWithScore, { withCredentials: true })
   }
 
-  private getUserFromStorage() {
+  private getUserFromStorage(): User | null {
     let user = this.utilService.loadFromStorage('user')
     if (!user) return null
     return user
