@@ -1,5 +1,6 @@
 node_modules
 logs
+public
 public/audio
 neon-notch.json
 .vscode

@@ -717,7 +717,6 @@ class GameComponent {
     }
     generateAndPlayRandomWord() {
         this.randomWord = random_words__WEBPACK_IMPORTED_MODULE_0___default()();
-        console.log(this.randomWord);
         this.wordService.textToSpeech(this.randomWord)
             .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_9__.takeUntil)(this.subs$))
             .subscribe(() => {

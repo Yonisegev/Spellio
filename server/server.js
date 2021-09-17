@@ -17,6 +17,7 @@ const corsOptions = {
   origin: [
     "http://localhost:4200",
     "http://127.0.0.1:4200",
+    'https://spellio-app.herokuapp.com/'
   ],
   credentials: true,
 };
@@ -34,7 +35,7 @@ app.get('/api/tts', async (req, res) => {
   const [response] = await client.synthesizeSpeech(request);
   const writeFile = util.promisify(fs.writeFile);
   await writeFile(`./public/audio/${text}.mp3`, response.audioContent, 'binary');
-  res.end()
+  res.send('Success')
 })
 
 app.get('/api/leaderboard', async (req, res) => {

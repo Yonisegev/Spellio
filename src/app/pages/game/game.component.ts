@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { LetterData } from 'src/app/models/letter-data';
 import { takeUntil } from 'rxjs/operators';
 import { ScoreComponent } from 'src/app/cmps/score/score.component';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'game',
   templateUrl: './game.component.html',
@@ -28,6 +29,7 @@ export class GameComponent implements OnInit, OnDestroy {
   hint: string = ''
   endingScore: number | undefined
   startGuessTime: number | null = null
+  pathToAudioFile: string | undefined
   @Input() level?: string
   @Output() onResetDifficulty = new EventEmitter()
   @ViewChild('score')
@@ -59,7 +61,6 @@ export class GameComponent implements OnInit, OnDestroy {
 
   generateAndPlayRandomWord() {
     this.randomWord = randomWords()
-    console.log(this.randomWord)
     this.wordService.textToSpeech(this.randomWord)
       .pipe(takeUntil(this.subs$))
       .subscribe(
@@ -71,7 +72,7 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   playWordSound() {
-    const audio = new Audio(`//localhost:3030/audio/${this.randomWord}.mp3`)
+    const audio = new Audio(`${environment.audioURL}/${this.randomWord}.mp3`)
     audio.play()
   }
 
