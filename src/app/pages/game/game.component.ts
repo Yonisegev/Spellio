@@ -29,7 +29,6 @@ export class GameComponent implements OnInit, OnDestroy {
   hint: string = ''
   endingScore: number | undefined
   startGuessTime: number | null = null
-  pathToAudioFile: string | undefined
   @Input() level?: string
   @Output() onResetDifficulty = new EventEmitter()
   @ViewChild('score')
