@@ -6,7 +6,6 @@ export const environment = {
   production: false,
   leaderboardsURL: '//localhost:3030/api/leaderboard',
   speechURL: '//localhost:3030/api/tts',
-  audioURL: '//localhost:3030/audio',
   dictionaryURL: 'https://api.dictionaryapi.dev/api/v2/entries/en'
 };
 

@@ -4,3 +4,4 @@ public
 public/audio
 neon-notch.json
 .vscode
+.env

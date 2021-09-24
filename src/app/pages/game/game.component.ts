@@ -64,6 +64,7 @@ export class GameComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.subs$))
       .subscribe(
         () => {
+          console.log('starting timer now')
           this.startGuessTime = Date.now()
           this.playWordSound()
         },
@@ -71,7 +72,7 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   playWordSound() {
-    const audio = new Audio(`${environment.audioURL}/${this.randomWord}.mp3`)
+    const audio = new Audio(`https://spellio.s3.eu-central-1.amazonaws.com/${this.randomWord}.wav`)
     audio.play()
   }
 

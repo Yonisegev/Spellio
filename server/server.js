@@ -2,13 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const textToSpeech = require('@google-cloud/text-to-speech');
-const fs = require('fs');
-const util = require('util');
 const app = express();
 const logger = require('./services/logger.service')
 const leaderboardService = require('./services/leaderboards.service')
-
-
+const { uploadFile, checkIfExistsInS3 } = require('./s3/index')
 // Express App Config
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, "public")));
@@ -33,14 +30,16 @@ app.get('/api/tts', async (req, res) => {
     audioConfig: { audioEncoding: 'MP3' },
   };
   const [response] = await client.synthesizeSpeech(request);
-  const writeFile = util.promisify(fs.writeFile);
-  await writeFile(`./public/audio/${text}.mp3`, response.audioContent, 'binary');
+  const isExistingInS3 = await checkIfExistsInS3(text)
+  if (!isExistingInS3) {
+    await uploadFile(response.audioContent, text)
+  }
   res.send('Success')
 })
 
 app.get('/api/leaderboard', async (req, res) => {
   try {
-    const {level} = req.query
+    const { level } = req.query
     const leaderboard = await leaderboardService.getLeaderboardByLevel(level)
     res.send(leaderboard)
   } catch (err) {
@@ -51,7 +50,7 @@ app.get('/api/leaderboard', async (req, res) => {
 app.post('/api/leaderboard', async (req, res) => {
   try {
     const user = req.body
-    if(!user.username || !user.score) return
+    if (!user.username || !user.score) return
     await leaderboardService.handleLeaderboard(user)
     return user
   } catch (err) {
