@@ -1,4 +1,4 @@
-# Uvote
+# Spellio
 
 Spellio is a spelling game application built with Angular 12, MongoDB, Express and Node.js, using Google's Text to Speech API, and AWS S3 bucket.
 
