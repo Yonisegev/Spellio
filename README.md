@@ -1,27 +1,9 @@
-# Spellio
+# Uvote
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.10.
+Spellio is a spelling game application built with Angular 12, MongoDB, Express and Node.js, using Google's Text to Speech API, and AWS S3 bucket.
 
-## Development server
+**[Link to app](https://spellio-app.herokuapp.com/)**
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+![Main game screen](https://i.imgur.com/JNJI4tH.png)
+![Game leaderboard](https://i.imgur.com/wp4ugz1.png)
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
